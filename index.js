@@ -1,34 +1,34 @@
 const express = require('express');
 require('dotenv').config();
-const cors = require('cors')
+const cors = require('cors');
+const getInfoPaciente = require ("./controllers/getInfoPaciente");
+const getUsuario = require ("./controllers/getUsuario");
+const getEnfermedadPaciente = require ("./controllers/getEnfermedadesPaciente");
+const port = 4000;
 
-
-// Crear aplicacion de express
 const app = express();
-
-// CORS
 
 app.use(cors());
 
-// Directorio publico
-// use, en express es conocido como un middelware, no es mas que una funcion que se ejecuta en el momento que alguien hace una peticion a nuestro servidor
-app.use( express.static('public') );
+app.get('/getInfoPaciente', (req,res) => {
+    getInfoPaciente.then((response) => {
+        res.send(response);
+    });
+})
 
-// Lectura y parseo del body
-app.use( express.json() );
+app.get('/getUsuario', (req,res) => {
+    getUsuario.then((response) => {
+        res.send(response);
+    });
+})
 
+app.get('/getEnfermedadPaciente', (req,res) => {
+    getEnfermedadPaciente.then((response) => {
+        res.send(response);
+    });
+})
 
-// Rutas
-// TODO: auth // crear,login,renew
-
-app.use('/medical/auth', require('./routes/auth') );
-// 1.Creamos la ruta para los endpoints de events.
-app.use('/medical/diary', require('./routes/diary') );
-
-
-
-// Escuchar peticiones
-app.listen( process.env.PORT, ()=> {
-    console.log(`Servidor corriendo en puerto ${ process.env.PORT}`);
-});
+app.listen(port, () => {
+    console.log(`server puerto ${port}`);
+})
 
