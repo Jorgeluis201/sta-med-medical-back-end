@@ -6,7 +6,9 @@ async function connectionOracle() {
   let connection;
 
   try {
+
     connection = await oracledb.getConnection(dbConfig);
+    
   } catch (err) {
     console.error(err);
   } finally {
