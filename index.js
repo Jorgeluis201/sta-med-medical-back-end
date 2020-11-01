@@ -26,11 +26,11 @@ app.get('/getUsuario', (req,res) => {
 
 
 
-// app.get('/getEnfermedadPaciente', (req,res) => {
-//     getEnfermedadPaciente.then((response) => {
-//         res.send(response);
-//     });
-// })
+app.get('/getEnfermedadPaciente', (req,res) => {
+    getEnfermedadPaciente.then((response) => {
+        res.send(response);
+    });
+})
 
 app.listen(port, () => {
     console.log(`server puerto ${port}`);

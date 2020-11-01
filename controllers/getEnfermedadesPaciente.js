@@ -1,58 +1,63 @@
-// const { response } = require('express');
+const { response } = require('express');
 
-// const getEnfermedadPaciente = async () => {
+const getEnfermedadPaciente = async () => {
 
-//     const oracledb = require('oracledb');
-//     const dbConfig = require('../database/dbconfig');
-//     const QUERY_GET_USUARIO = `select p.id_persona, p.rut, E.ID_ENFERMEDAD, E.ENFERMEDAD 
-//                                 from personas P JOIN MOLESTIAS M 
-//                                 ON (P.ID_PERSONA = M.PERSONAS_ID_PERSONA)
-//                                 JOIN ENFERMEDADES E 
-//                                 ON (E.ID_ENFERMEDAD = M.ENFERMEDADES_ID_ENFERMEDAD)
-//                                 JOIN PARAMETROS PAR 
-//                                 ON (P.ID_PERSONA = PAR.PERSONAS_ID_PERSONA)
-//                                 where roles_id_rol = :roles_id_rolbv`;
+    const oracledb = require('oracledb');
+    const dbConfig = require('../database/dbconfig');
 
-//     //bv significa el valor que espera como parametro. En este caso id.
 
-//     let connection;
+    const QUERY_GET_USUARIO = `SELECT PERS.RUT,
+                                      COUNT(ENF.NOMBRE)"CANT ENFERMEDADES",
+                                      CO.ABREVIATURA
+                                FROM PERSONAS PERS 
+                                JOIN MOLESTIAS MO
+                                ON(MO.PERSONAS_ID_PERSONA = PERS.ID_PERSONA)
+                                JOIN ENFERMEDADES ENF
+                                ON(ENF.ID_ENFERMEDAD = MO.ENFERMEDADES_ID_ENFERMEDAD)
+                                JOIN CONDICION_CR CO
+                                ON(CO.ID_CONDICION = ENF.CONDICION_CR_ID_CONDICION)
+                                WHERE ROLES_ID_ROL = :roles_id_rolbv
+                                GROUP BY CO.ABREVIATURA,PERS.RUT 
+                                ORDER BY PERS.RUT`;
 
-//     try {
 
-//         connection = await oracledb.getConnection(dbConfig);
+    //bv significa el valor que espera como parametro. En este caso id.
 
-//         const result = await connection.execute(
-//             QUERY_GET_USUARIO,
-//             [3],
-//             {
-//                 maxRows: 6
-//             });
+    let connection;
 
-//         const data = result.rows.map(row => {
+    try {
 
-//             const obj = new Object();
-//             obj.id = row[0];
-//             obj.rut = row[1];
-//             obj.id_enfermedad = row[2];
-//             obj.nombre_enfermedad = row[3];
+        connection = await oracledb.getConnection(dbConfig);
 
-//             return obj;
-//         })
+        const result = await connection.execute(
+            QUERY_GET_USUARIO,
+            [1],
+            {
+                maxRows: 0
+            });
 
-//         const js = JSON.stringify(data);
-//         return js;
+        const data = result.rows.map(row => {
 
-//     } catch (err) {
-//         console.error(err);
-//     } finally {
-//         if (connection) {
-//             try {
-//                 await connection.close();
-//             } catch (err) {
-//                 console.error(err);
-//             }
-//         }
-//     }
-// }
+            const obj = new Object();
+            obj.rut = row[0];
+            obj.con_cronica = row[2];
+            return obj;
+        })
 
-// module.exports = getEnfermedadPaciente();
+        const js = JSON.stringify(data);
+        return js;
+
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+}
+
+module.exports = getEnfermedadPaciente();
