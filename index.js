@@ -11,14 +11,15 @@ const app = express();
 
 app.use(cors());
 
-// app.get('/getInfoPaciente', (req,res) => {
-//     getInfoPaciente.then((response) => {
-//         res.send(response);
-//     });
-// })
+app.get('/getInfoPaciente', (req,res) => {
+    getInfoPaciente.then((response) => {
+        res.send(response);
+    });
+})
 
 app.get('/getUsuario', (req,res) => {
 
+    
     getUsuario.then((response) => {
         res.send(response);
     });
