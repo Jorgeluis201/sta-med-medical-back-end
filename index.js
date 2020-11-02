@@ -5,6 +5,7 @@ const getInfoPaciente = require ("./controllers/getInfoPaciente");
 const getUsuario = require ("./controllers/getUsuario");
 
 const getEnfermedadPaciente = require ("./controllers/getEnfermedadesPaciente");
+const getAgenda = require('./controllers/getAgenda');
 const port = 4000;
 
 const app = express();
@@ -13,6 +14,12 @@ app.use(cors());
 
 app.get('/getInfoPaciente', (req,res) => {
     getInfoPaciente.then((response) => {
+        res.send(response);
+    });
+})
+
+app.get('/getAgenda', (req,res) => {
+    getAgenda.then((response) => {
         res.send(response);
     });
 })
