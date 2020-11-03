@@ -1,5 +1,5 @@
 const getAgenda = async () => {
-
+    
     const oracledb = require('oracledb');
     const dbConfig = require('../database/dbconfig');
 

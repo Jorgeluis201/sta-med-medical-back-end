@@ -1,6 +1,5 @@
-const { response } = require('express');
-
 const getEnfermedadPaciente = async () => {
+    
 
     const oracledb = require('oracledb');
     const dbConfig = require('../database/dbconfig');

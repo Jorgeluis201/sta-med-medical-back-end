@@ -6,6 +6,8 @@ const getUsuario = require ("./controllers/getUsuario");
 
 const getEnfermedadPaciente = require ("./controllers/getEnfermedadesPaciente");
 const getAgenda = require('./controllers/getAgenda');
+const { response } = require('express');
+const getCompensacion = require('./controllers/getCompensacion');
 const port = 4000;
 
 const app = express();
@@ -32,6 +34,11 @@ app.get('/getUsuario', (req,res) => {
     });
 })
 
+app.get('/getCompensacion',(req,res)=>{
+    getCompensacion.then((response)=>{
+        res.send(response)
+    })
+})
 
 
 app.get('/getEnfermedadPaciente', (req,res) => {
@@ -39,6 +46,7 @@ app.get('/getEnfermedadPaciente', (req,res) => {
         res.send(response);
     });
 })
+
 
 app.listen(port, () => {
     console.log(`server puerto ${port}`);

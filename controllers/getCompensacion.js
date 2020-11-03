@@ -1,13 +1,18 @@
-const getUsuario = async () => {
-     
+const getCompensacion = async () => {
+    
+
     const oracledb = require('oracledb');
     const dbConfig = require('../database/dbconfig');
-    // const QUERY_GET_USUARIO = `select id_persona, usuario, hash_clave from personas
-    //                             where roles_id_rol = :roles_id_rolbv`;
 
-    const QUERY_GET_USUARIO = `SELECT RUT,nombres || ' ' || APELLIDO_PAT || ' ' || Apellido_mat  , usuario, hash_clave,email
-                                FROM PERSONAS
-                                WHERE ROLES_ID_ROL = :roles_id_rolbv `;
+
+    const QUERY_GET_COMPENSACION = `SELECT PERS.RUT,EX.NOMBRE,MED.VALOR
+                                    FROM MEDICIONES MED 
+                                    JOIN PERSONAS PERS
+                                    ON(PERS.ID_PERSONA = MED.PERSONAS_ID_PERSONA)
+                                    JOIN EXAMENES EX
+                                    ON(EX.ID_EXAMEN=MED.EXAMENES_ID_EXAMEN)
+                                    WHERE PERS.RUT = :rutbv`;
+
 
     //bv significa el valor que espera como parametro. En este caso id.
 
@@ -18,21 +23,18 @@ const getUsuario = async () => {
         connection = await oracledb.getConnection(dbConfig);
 
         const result = await connection.execute(
-            QUERY_GET_USUARIO,
-            [2],
+            QUERY_GET_COMPENSACION,
+            [199745588],
             {
-                maxRows: 6
+                maxRows: 0
             });
 
         const data = result.rows.map(row => {
 
             const obj = new Object();
             obj.rut = row[0];
-            obj.nombre = row[1];
-            obj.usuario = row[2];
-            obj.hash_clave = row[3];
-            obj.email = row[4];
-
+            obj.nombre_examen = row[1];
+            obj.valor_examen = row[2];
             return obj;
         })
 
@@ -40,9 +42,7 @@ const getUsuario = async () => {
         return js;
 
     } catch (err) {
-        
         console.error(err);
-
     } finally {
         if (connection) {
             try {
@@ -54,4 +54,4 @@ const getUsuario = async () => {
     }
 }
 
-module.exports = getUsuario();
+module.exports = getCompensacion();
