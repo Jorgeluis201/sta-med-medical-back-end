@@ -3,6 +3,7 @@ const getAgenda = async () => {
     const oracledb = require('oracledb');
     const dbConfig = require('../database/dbconfig');
 
+    
 
     const QUERY_GET_AGENDA = `SELECT CI.MEDICORUT,PERS.RUT,PERS.NOMBRES,TO_DATE(CI.FECHA_ASIGNADA||CI.HORA_ASIGNADA,'DD/MM/YYYY/HH24:MI:SS') "Start"
                                 FROM PERSONAS PERS
