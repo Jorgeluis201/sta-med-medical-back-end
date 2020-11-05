@@ -6,6 +6,7 @@ const getUsuario = require ("./controllers/getUsuario");
 const getCompensacion = require ("./controllers/getCompensacion");
 const getEnfermedadPaciente = require ("./controllers/getEnfermedadesPaciente");
 const getAgenda = require('./controllers/getAgenda');
+const getLaboratorio = require('./controllers/getLaboratorio');
 const port = 4000;
 
 const app = express();
@@ -16,6 +17,12 @@ app.get('/getInfoPaciente', (req,res) => {
     getInfoPaciente.then((response) => {
         res.send(response);
     });
+})
+
+app.get('/getLaboratorio', (req, res) => {
+    getLaboratorio.then((response) => {
+        res.send(response);
+    })
 })
 
 app.get('/getAgenda', (req,res) => {

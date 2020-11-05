@@ -5,13 +5,14 @@ const getCompensacion = async () => {
     const dbConfig = require('../database/dbconfig');
 
 
-    const QUERY_GET_COMPENSACION = `SELECT PERS.RUT,EX.NOMBRE,MED.VALOR
+    const QUERY_GET_COMPENSACION = `SELECT PERS.RUT,EX.NOMBRE, MAX(MED.FECHA), MED.VALOR
                                     FROM MEDICIONES MED 
                                     JOIN PERSONAS PERS
                                     ON(PERS.ID_PERSONA = MED.PERSONAS_ID_PERSONA)
                                     JOIN EXAMENES EX
                                     ON(EX.ID_EXAMEN=MED.EXAMENES_ID_EXAMEN)
-                                    WHERE PERS.ROLES_ID_ROL = :id_rolbv`;
+                                    WHERE PERS.ROLES_ID_ROL = :id_rolbv
+                                    GROUP BY PERS.RUT, EX.NOMBRE, MED.VALOR`;
 
     const QUERY_GET_COMPENSACION2 = `SELECT PERS.RUT, PAR.PA_SIST, PAR. PA_DIAST 
                                     FROM PARAMETROS PAR
@@ -157,7 +158,7 @@ const getCompensacion = async () => {
             obj.rut = row[0];
             let nombre = "nombre_param";
             obj[nombre] = row[1];
-            obj.valor = row[2];
+            obj.valor = row[3];
             return obj;
         })
 
@@ -256,8 +257,6 @@ const getCompensacion = async () => {
         const array8 = array7.concat(data7);
         const array9 = array8.concat(data8);
         const array10 = array9.concat(data9);
-
-        console.log(data9);
 
         const js = JSON.stringify(array10);
         return js;
