@@ -66,7 +66,6 @@ const getCompensacion = async () => {
                                     JOIN CONDICION_CR cond
                                     ON(preg.condicion_cr_id_condicion = cond.id_condicion)
                                     where condicion_cr_id_condicion = :id_condicionbv`;
-                           
 
 
     //bv significa el valor que espera como parametro. En este caso id.
@@ -128,6 +127,14 @@ const getCompensacion = async () => {
         const result7 = await connection.execute(
             QUERY_GET_COMPENSACION7,
             [6],
+            {
+                maxRows: 0
+            }
+        );
+
+        const result8 = await connection.execute(
+            QUERY_GET_COMPENSACION7,
+            [11],
             {
                 maxRows: 0
             }
@@ -219,6 +226,16 @@ const getCompensacion = async () => {
             return obj;
         })
 
+        const data9 = result8.rows.map(row => {
+
+            const obj = new Object();
+            obj.rut = row[0];
+            const nombre = "nombre_param";
+            obj[nombre] = row[2];
+            obj.valor = row[1];
+            return obj;
+        })
+
         const array3 = data.concat(data2);
         const array4 = array3.concat(data3);
         const array5 = array4.concat(data4);
@@ -226,8 +243,11 @@ const getCompensacion = async () => {
         const array7 = array6.concat(data6);
         const array8 = array7.concat(data7);
         const array9 = array8.concat(data8);
+        const array10 = array9.concat(data9);
 
-        const js = JSON.stringify(array9);
+        console.log(data9);
+
+        const js = JSON.stringify(array10);
         return js;
 
     } catch (err) {
