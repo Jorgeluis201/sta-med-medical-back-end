@@ -66,6 +66,17 @@ const getCompensacion = async () => {
                                     JOIN CONDICION_CR cond
                                     ON(preg.condicion_cr_id_condicion = cond.id_condicion)
                                     where condicion_cr_id_condicion = :id_condicionbv`;
+    
+    const QUERY_GET_COMPENSACION8 = `SELECT pers.rut "RUT PERSONA", sum(sint.respuesta) "PTJEEpoc"
+                                    FROM personas pers 
+                                    JOIN sintomas sint  
+                                    ON(sint.personas_id_persona = pers.id_persona)
+                                    JOIN PREGUNTAS preg
+                                    ON(sint.preguntas_id_pregunta = preg.id_pregunta)
+                                    JOIN CONDICION_CR cond
+                                    ON(preg.condicion_cr_id_condicion = cond.id_condicion)
+                                    where condicion_cr_id_condicion = :id_condicionbv
+                                    group by pers.rut`;
 
 
     //bv significa el valor que espera como parametro. En este caso id.
@@ -133,7 +144,7 @@ const getCompensacion = async () => {
         );
 
         const result8 = await connection.execute(
-            QUERY_GET_COMPENSACION7,
+            QUERY_GET_COMPENSACION8,
             [11],
             {
                 maxRows: 0
@@ -231,7 +242,8 @@ const getCompensacion = async () => {
             const obj = new Object();
             obj.rut = row[0];
             const nombre = "nombre_param";
-            obj[nombre] = row[2];
+            const nombre2 = "PTJEEpoc";
+            obj[nombre] = nombre2;
             obj.valor = row[1];
             return obj;
         })

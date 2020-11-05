@@ -1,8 +1,3 @@
-
-
-
-
-
 const getUsuario = async () => {
 
     const oracledb = require('oracledb');
