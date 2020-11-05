@@ -50,6 +50,22 @@ const getCompensacion = async () => {
                                     ON(preg.condicion_cr_id_condicion = cond.id_condicion)
                                     where condicion_cr_id_condicion = :id_condicionbv
                                     group by pers.rut`;
+
+    const QUERY_GET_COMPENSACION6 = `SELECT PERS.RUT, RAYOS.DIAG 
+                                    FROM personas pers 
+                                    JOIN RXS RAYOS
+                                    ON(PERS.ID_PERSONA = RAYOS.PERSONAS_ID_PERSONA)
+                                    where pers.roles_id_rol = :id_rolbv`;
+    
+    const QUERY_GET_COMPENSACION7 = `SELECT pers.rut "RUT PERSONA", sint.respuesta "PUNTAJE", preg.nombre
+                                    FROM personas pers 
+                                    JOIN sintomas sint  
+                                    ON(sint.personas_id_persona = pers.id_persona)
+                                    JOIN PREGUNTAS preg
+                                    ON(sint.preguntas_id_pregunta = preg.id_pregunta)
+                                    JOIN CONDICION_CR cond
+                                    ON(preg.condicion_cr_id_condicion = cond.id_condicion)
+                                    where condicion_cr_id_condicion = :id_condicionbv`;
                            
 
 
@@ -96,6 +112,22 @@ const getCompensacion = async () => {
         const result5 = await connection.execute(
             QUERY_GET_COMPENSACION5,
             [10],
+            {
+                maxRows: 0
+            }
+        );
+
+        const result6 = await connection.execute(
+            QUERY_GET_COMPENSACION6,
+            [1],
+            {
+                maxRows: 0
+            }
+        );
+
+        const result7 = await connection.execute(
+            QUERY_GET_COMPENSACION7,
+            [6],
             {
                 maxRows: 0
             }
@@ -165,13 +197,37 @@ const getCompensacion = async () => {
             return obj;
         })
 
+        const data7 = result6.rows.map(row => {
+
+            const obj = new Object();
+            obj.rut = row[0];
+            const nombre = "nombre_param";
+            const nombre2 = "Rx";
+            const nombre3 = "True"
+            obj[nombre] = nombre2;
+            obj.valor = nombre3;
+            return obj;
+        })
+
+        const data8 = result7.rows.map(row => {
+
+            const obj = new Object();
+            obj.rut = row[0];
+            const nombre = "nombre_param";
+            obj[nombre] = row[2];
+            obj.valor = row[1];
+            return obj;
+        })
+
         const array3 = data.concat(data2);
         const array4 = array3.concat(data3);
         const array5 = array4.concat(data4);
         const array6 = array5.concat(data5);
         const array7 = array6.concat(data6);
+        const array8 = array7.concat(data7);
+        const array9 = array8.concat(data8);
 
-        const js = JSON.stringify(array7);
+        const js = JSON.stringify(array9);
         return js;
 
     } catch (err) {
