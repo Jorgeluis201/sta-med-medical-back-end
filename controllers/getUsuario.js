@@ -1,12 +1,13 @@
+
+
+
+
+
 const getUsuario = async () => {
 
-    
-     
     const oracledb = require('oracledb');
     const dbConfig = require('../database/dbconfig');
 
-  
-   
     const QUERY_GET_USUARIO = `SELECT RUT,nombres || ' ' || APELLIDO_PAT || ' ' || Apellido_mat  , usuario, hash_clave,email
                                 FROM PERSONAS
                                 WHERE ROLES_ID_ROL = :roles_id_rolbv `;
@@ -21,7 +22,7 @@ const getUsuario = async () => {
             QUERY_GET_USUARIO,
             [2],
             {
-                maxRows: 6
+                maxRows: 0
             });
 
         const data = result.rows.map(row => {

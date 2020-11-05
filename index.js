@@ -24,17 +24,13 @@ app.get('/getAgenda', (req,res) => {
     });
 })
 
-app.get('/getUsuario/:id', (req,res) => {
-
-   const email = req.params.id;
-
-
+app.get('/getUsuario/:email', (req,res) => {
 
     getUsuario.then((response) => {
-
         res.send(response);
     });
 })
+
 
 app.get('/getCompensacion', (req,res) => {
 

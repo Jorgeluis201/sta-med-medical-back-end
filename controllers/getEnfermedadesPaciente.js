@@ -5,20 +5,16 @@ const getEnfermedadPaciente = async () => {
     const dbConfig = require('../database/dbconfig');
 
 
-    const QUERY_GET_USUARIO = `SELECT PERS.RUT,
-                                      COUNT(ENF.NOMBRE)"CANT ENFERMEDADES",
-                                      CO.ABREVIATURA
-                                FROM PERSONAS PERS 
-                                JOIN MOLESTIAS MO
-                                ON(MO.PERSONAS_ID_PERSONA = PERS.ID_PERSONA)
-                                JOIN ENFERMEDADES ENF
-                                ON(ENF.ID_ENFERMEDAD = MO.ENFERMEDADES_ID_ENFERMEDAD)
-                                JOIN CONDICION_CR CO
-                                ON(CO.ID_CONDICION = ENF.CONDICION_CR_ID_CONDICION)
-                                WHERE ROLES_ID_ROL = :roles_id_rolbv
-                                GROUP BY CO.ABREVIATURA,PERS.RUT 
-                                ORDER BY PERS.RUT`;
-
+    const QUERY_GET_USUARIO = `SELECT PERS.RUT,COUNT(PREG.NOMBRE),CR.ABREVIATURA
+                               FROM PERSONAS PERS
+                               JOIN SINTOMAS SIN
+                               ON(SIN.PERSONAS_ID_PERSONA = PERS.ID_PERSONA)
+                               JOIN PREGUNTAS PREG
+                               ON(PREG.ID_PREGUNTA = SIN.PREGUNTAS_ID_PREGUNTA)
+                               JOIN CONDICION_CR CR
+                               ON(CR.ID_CONDICION = PREG.CONDICION_CR_ID_CONDICION)
+                               WHERE ROLES_ID_ROL = :roles_id_rolbv
+                               GROUP BY CR.ABREVIATURA,PERS.RUT`;
 
     //bv significa el valor que espera como parametro. En este caso id.
 

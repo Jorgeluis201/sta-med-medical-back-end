@@ -13,14 +13,6 @@ const getCompensacion = async () => {
                                     ON(EX.ID_EXAMEN=MED.EXAMENES_ID_EXAMEN)
                                     WHERE PERS.ROLES_ID_ROL = :id_rolbv`;
 
-    // const QUERY_GET_COMPENSACION2 = `SELECT PERS.RUT, PAR.PA_SIST, PAR. PA_DIAST 
-    //                                 FROM PARAMETROS PAR
-    //                                 JOIN PERSONAS PERS
-    //                                 ON (PERS.ID_PERSONA = PAR.PERSONAS_ID_PERSONA)
-    //                                 WHERE PERS.ROLES_ID_ROL = :id_rolbv`;
-
-
-    //bv significa el valor que espera como parametro. En este caso id.
 
     let connection;
 
