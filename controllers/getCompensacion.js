@@ -39,6 +39,17 @@ const getCompensacion = async () => {
                                     JOIN CONDICION_CR cond
                                     ON(preg.condicion_cr_id_condicion = cond.id_condicion)
                                     where condicion_cr_id_condicion = :id_condicionbv`;
+
+    const QUERY_GET_COMPENSACION5 = `SELECT pers.rut "RUT PERSONA", sum(sint.respuesta) "PTJEAsma"
+                                    FROM personas pers 
+                                    JOIN sintomas sint  
+                                    ON(sint.personas_id_persona = pers.id_persona)
+                                    JOIN PREGUNTAS preg
+                                    ON(sint.preguntas_id_pregunta = preg.id_pregunta)
+                                    JOIN CONDICION_CR cond
+                                    ON(preg.condicion_cr_id_condicion = cond.id_condicion)
+                                    where condicion_cr_id_condicion = :id_condicionbv
+                                    group by pers.rut`;
                            
 
 
@@ -77,6 +88,14 @@ const getCompensacion = async () => {
         const result4 = await connection.execute(
             QUERY_GET_COMPENSACION4,
             [8],
+            {
+                maxRows: 0
+            }
+        );
+
+        const result5 = await connection.execute(
+            QUERY_GET_COMPENSACION5,
+            [10],
             {
                 maxRows: 0
             }
@@ -135,12 +154,24 @@ const getCompensacion = async () => {
             return obj;
         })
 
+        const data6 = result5.rows.map(row => {
+
+            const obj = new Object();
+            obj.rut = row[0];
+            const nombre = "nombre_param";
+            const nombre2 = "PTJEAsma";
+            obj[nombre] = nombre2;
+            obj.valor = row[1];
+            return obj;
+        })
+
         const array3 = data.concat(data2);
         const array4 = array3.concat(data3);
         const array5 = array4.concat(data4);
         const array6 = array5.concat(data5);
+        const array7 = array6.concat(data6);
 
-        const js = JSON.stringify(array6);
+        const js = JSON.stringify(array7);
         return js;
 
     } catch (err) {
