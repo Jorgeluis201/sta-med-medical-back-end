@@ -8,6 +8,7 @@ const getEnfermedadPaciente = require ("./controllers/getEnfermedadesPaciente");
 const getAgenda = require('./controllers/getAgenda');
 const getLaboratorio = require('./controllers/getLaboratorio');
 const getMolestias = require('./controllers/getMolestias');
+const getTratamientos = require('./controllers/getTratamientos');
 const port = 4000;
 
 const app = express();
@@ -22,6 +23,12 @@ app.get('/getInfoPaciente', (req,res) => {
 
 app.get('/getLaboratorio', (req, res) => {
     getLaboratorio.then((response) => {
+        res.send(response);
+    })
+})
+
+app.get('/getTratamiento', (req, res) => {
+    getTratamientos.then((response) => {
         res.send(response);
     })
 })

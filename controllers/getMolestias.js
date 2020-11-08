@@ -32,8 +32,7 @@ const getInfoPaciente = async () => {
             const obj = new Object();
             obj.rut = row[0];
             obj.fecha = row[1];
-            obj.texto = row[2];
-            obj.abreviatura = row[3];
+            obj.con_cronica = row[2];
             return obj;
         })
 
