@@ -57,7 +57,7 @@ app.get('/getUsuario/:email', async(req,res) => {
 
     const QUERY_GET_USUARIO = `SELECT RUT,nombres || ' ' || APELLIDO_PAT || ' ' || Apellido_mat  , usuario, hash_clave,email
                                 FROM PERSONAS
-                                WHERE email = :emailbv `;
+                                WHERE email = :emailbv and ROLES_ID_ROL = :roles_id_rolbv `;
 
     let connection;
 
@@ -67,7 +67,7 @@ app.get('/getUsuario/:email', async(req,res) => {
 
         const result = await connection.execute(
             QUERY_GET_USUARIO,
-            [email],
+            [email,2],
             {
                 maxRows: 0
             });
