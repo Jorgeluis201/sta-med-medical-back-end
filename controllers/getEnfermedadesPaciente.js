@@ -31,6 +31,7 @@ const getEnfermedadPaciente = async () => {
                 maxRows: 0
             });
 
+            
         const data = result.rows.map(row => {
 
             const obj = new Object();

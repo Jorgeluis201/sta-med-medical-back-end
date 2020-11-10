@@ -15,6 +15,8 @@ const app = express();
 
 app.use(cors());
 
+app.use('/api',require('./routes/api'));
+
 app.get('/getInfoPaciente', (req,res) => {
     getInfoPaciente.then((response) => {
         res.send(response);
@@ -47,6 +49,7 @@ app.get('/getAgenda', (req,res) => {
 
 app.get('/getUsuario/:email', async(req,res) => {
 
+    
     const email = req.params.email;
     // getUsuario.then((response) => {
     //     res.send(response);
@@ -115,7 +118,6 @@ app.get('/getEnfermedadPaciente', (req,res) => {
         res.send(response);
     });
 })
-
 
 app.listen(port, () => {
     console.log(`server puerto ${port}`);
