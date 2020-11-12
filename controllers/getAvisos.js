@@ -30,8 +30,9 @@ const getAvisos = async () => {
         const data = result.rows.map(row => {
 
             const obj = new Object();
-            obj.id_molestias = row[0];
+            obj.rut = row[0];
             obj.molestia = row[1];
+            obj.con_cronica = row[2];
             return obj;
         })
 
