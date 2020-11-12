@@ -11,6 +11,7 @@ const getMolestias = require('./controllers/getMolestias');
 const getTratamientos = require('./controllers/getTratamientos');
 const getPreguntas = require('./controllers/getPreguntasCr');
 const getAvisos = require('./controllers/getAvisos');
+const getSintomas = require('./controllers/getSintomas');
 const port = 4000;
 
 const app = express();
@@ -30,6 +31,13 @@ app.get('/getAvisos', (req,res) => {
         res.send(response);
     });
 })
+
+app.get('/getSintomas', (req,res) => {
+    getSintomas.then((response) => {
+        res.send(response);
+    });
+})
+
 
 app.get('/getLaboratorio', (req, res) => {
     getLaboratorio.then((response) => {
