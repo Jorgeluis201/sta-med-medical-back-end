@@ -9,6 +9,7 @@ const getAgenda = require('./controllers/getAgenda');
 const getLaboratorio = require('./controllers/getLaboratorio');
 const getMolestias = require('./controllers/getMolestias');
 const getTratamientos = require('./controllers/getTratamientos');
+const getPreguntas = require('./controllers/getPreguntasCr');
 const port = 4000;
 
 const app = express();
@@ -25,6 +26,12 @@ app.get('/getInfoPaciente', (req,res) => {
 
 app.get('/getLaboratorio', (req, res) => {
     getLaboratorio.then((response) => {
+        res.send(response);
+    })
+})
+
+app.get('/getPreguntasCr', (req, res) => {
+    getPreguntas.then((response) => {
         res.send(response);
     })
 })
@@ -51,6 +58,7 @@ app.get('/getUsuario/:email', async(req,res) => {
 
     
     const email = req.params.email;
+
     // getUsuario.then((response) => {
     //     res.send(response);
     // });
@@ -60,7 +68,7 @@ app.get('/getUsuario/:email', async(req,res) => {
 
     const QUERY_GET_USUARIO = `SELECT RUT,nombres || ' ' || APELLIDO_PAT || ' ' || Apellido_mat  , usuario, hash_clave,email
                                 FROM PERSONAS
-                                WHERE email = :emailbv and ROLES_ID_ROL = :roles_id_rolbv `;
+                                WHERE email = :emailbv and ROLES_ID_ROL = :roles_id_rolbv`;
 
     let connection;
 
