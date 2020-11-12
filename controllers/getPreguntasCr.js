@@ -32,7 +32,6 @@ const getPreguntas = async () => {
 
             const obj = new Object();
             obj.rut = row[0];
-            obj.fecha_sintoma = row[1];
             obj.nombre_pregunta = row[2];
             obj.respuesta_sintoma = row[3];
             obj.con_cronica = row[4];
