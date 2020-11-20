@@ -2,7 +2,7 @@ const getInfoPaciente = async () => {
 
     const oracledb = require('oracledb');
     const dbConfig = require('../database/dbconfig');
-    const QUERY_GET_USUARIO = `SELECT pers.rut ,count(pers.id_persona), med.nombre_breve ||': '||trunc(rec.dosis_indic/30, 2) ||' c/'|| rec.fraccion_indic||' hrs' as "dosis_diaria", 
+    const QUERY_GET_USUARIO = `SELECT pers.rut ,count(pers.id_persona), med.nombre_breve , trunc(rec.dosis_indic/30, 2) ||' c/'|| rec.fraccion_indic||' hrs' as "DOSIS_DIARIA",
                                 cr.abreviatura, info.respuesta
                                 FROM medicamentos med
                                 JOIN recetados rec 
@@ -39,9 +39,10 @@ const getInfoPaciente = async () => {
 
             const obj = new Object();
             obj.rut = row[0];
-            obj.dosis_diaria = row[2];
-            obj.con_cronica = row[3];
-            obj.consumo_medicamento = row[4];
+            obj.nombre_breve = row[2];
+            obj.dosis_diaria = row[3];
+            obj.con_cronica = row[4];
+            obj.consumo_medicamento = row[5];
             return obj;
         })
 

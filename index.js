@@ -12,6 +12,7 @@ const getTratamientos = require('./controllers/getTratamientos');
 const getPreguntas = require('./controllers/getPreguntasCr');
 const getAvisos = require('./controllers/getAvisos');
 const getSintomas = require('./controllers/getSintomas');
+const getNutricion = require('./controllers/getNutricion');
 const port = 4000;
 
 const app = express();
@@ -22,6 +23,12 @@ app.use('/api',require('./routes/api'));
 
 app.get('/getInfoPaciente', (req,res) => {
     getInfoPaciente.then((response) => {
+        res.send(response);
+    });
+})
+
+app.get('/getNutricion', (req,res) => {
+    getNutricion.then((response) => {
         res.send(response);
     });
 })
